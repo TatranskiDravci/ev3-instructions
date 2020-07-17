@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/robot.png" type="Texture" id=1]
+[ext_resource path="res://assets/city_shaper.png" type="Texture" id=2]
+[ext_resource path="res://robot.gd" type="Script" id=3]
+[ext_resource path="res://Node2D.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 619.282, 12.1474 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 18.3256, 357.955 )
+
+[node name="city_shaper" type="Sprite"]
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="robot" type="Sprite" parent="Node2D"]
+modulate = Color( 1, 1, 1, 0.819608 )
+position = Vector2( 140, 545 )
+scale = Vector2( 0.341241, 0.341241 )
+texture = ExtResource( 1 )
+offset = Vector2( -140, 0 )
+script = ExtResource( 3 )
+
+[node name="Ray" type="RayCast2D" parent="Node2D/robot"]
+enabled = true
+cast_to = Vector2( 4000, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 592.398, -11.2478 )
+shape = SubResource( 1 )
+one_way_collision_margin = 128.0
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2( 593.318, 682.464 )
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2( -16.7037, 336.073 )
+shape = SubResource( 2 )
+one_way_collision_margin = 128.0
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2( 1212.5, 341.632 )
+shape = SubResource( 2 )
+one_way_collision_margin = 0.0
