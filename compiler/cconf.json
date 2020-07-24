@@ -1,0 +1,50 @@
+{
+  "Config" : {
+    "shebang" : "#!/usr/bin/env pybricks-micropython",
+    "loadpath" : "/home/lukas/.ev3-paths/",
+    "savepath" : "/home/lukas/.ev3-paths/compiled/",
+    "classname" : "r",
+    "Imports" : [
+      { "from" : "robot", "import" : "*" },
+      { "from" : "pybrics.parameters", "import" : "Port" }
+    ],
+    "Ports" : {
+      "lmotor" : "Port.B",
+      "rmotor" : "Port.C",
+      "gyro" : "Port.S1",
+      "dist" : "Port.S2",
+      "Wheels" : [
+        44, 180
+      ]
+    },
+    "Constants" : {
+      "maxspeed" : 60,
+      "basespeed" : 20,
+      "tolerance" : 10
+    }
+  },
+  "Class" : {
+    "name" : "Robot",
+    "Constructor" : [
+      "lmotor", "rmotor", "gyro", "dist", "Wheels"
+    ],
+    "Methods" : [
+      {
+        "name" : "move",
+        "match" : "m",
+        "type" : "float",
+        "Parameters" : [
+          "maxspeed", "_", "basespeed", "tolerance"
+        ]
+      },
+      {
+        "name" : "rotate",
+        "match" : "r",
+        "type" : "int",
+        "Parameters" : [
+          "maxspeed", "_", "basespeed"
+        ]
+      }
+    ]
+  }
+}

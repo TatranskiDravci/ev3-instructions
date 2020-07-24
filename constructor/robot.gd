@@ -4,6 +4,10 @@ var mPos
 var locs = []
 var mat
 var cPos
+var angLock
+
+func px2cm(px):
+	return (px * 202.0/1196.0)
 
 func _ready():
 	mat = get_node("/root/city_shaper").texture.get_size()
@@ -45,3 +49,33 @@ func _input(event):
 						print("x: ", loc[0], " y: ", mat.y - 1 - loc[1], " ang: ", rad2deg(loc[2]), " dist: ", loc[3])
 					i = i + 1
 				print("-----------------------------------------")
+
+			if event.scancode == KEY_S and event.pressed:
+				print("saving")
+				var fPol = File.new()
+				var fCart = File.new()
+				var id = "/home/lukas/.ev3-paths/" + str((randi()%200+1)) + str((randi()%200+1)) + str((randi()%200+1)) + str((randi()%200+1))
+				var idPol = id + "polar.rppf"
+				var idCart = id + "cartesian.rcpf"
+				var polar = ""
+				var cart = str(mat.x) + " " + str(mat.y) + "\n"
+				var i = 0
+				for loc in locs:
+					if i > 0:
+						polar = polar + "r" + str(int(rad2deg(loc[2]) - rad2deg(locs[i-1][2]))) + "r m" + str(px2cm(loc[3])) + "m\n"
+					else:
+						polar = polar + "r" + str(int(rad2deg(loc[2]))) + "r m" + str(px2cm(loc[3])) + "m\n"
+					cart = cart + str(loc[0]) + " " + str(loc[1]) + "\n"
+					i = i + 1
+
+				# save "polar" coordinates
+
+				fPol.open(idPol, File.WRITE)
+				fPol.store_string(polar)
+				fPol.close()
+
+				# save cartesian coordinates
+
+				fCart.open(idCart, File.WRITE)
+				fCart.store_string(cart)
+				fCart.close()
