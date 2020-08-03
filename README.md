@@ -18,11 +18,10 @@ A set of tools to simplify building EV3 programs
 * defines actions of EV3 unit
 * configurable
 * functions
-  * no multiple equal functions on single line
+  * no multiple identical functions on single line
   * name cannot include any special, numeric or lower designated characters
   * parameters enclosed in function's name: `r123r` or `mv23::2mv`
   * function parameters separated by `::`
-  * list parameters enclosed in `[]` and separated by `,`
 
 ### .eppfc.json
 * dotfile
