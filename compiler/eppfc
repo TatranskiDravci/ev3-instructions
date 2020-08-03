@@ -1,0 +1,63 @@
+#!/usr/bin/python3
+import os
+import json
+import re
+import argparse
+
+parser = argparse.ArgumentParser(description='eppf2py compiler')
+parser.add_argument('-i', '--in', action='store', dest='infile')
+parser.add_argument('-o', '--out', action='store', dest='outfile')
+args = parser.parse_args()
+
+conf = json.load(open(os.path.expanduser("~/.eppfc.json"), "r"))
+classname = conf["Config"]["classname"]
+try:
+    filein = os.path.expanduser(args.infile)
+    fileout = os.path.expanduser(args.outfile)
+except:
+    print("Invalid input file or output path")
+    exit()
+
+if filein is None or os.path.exists(filein) == False:
+	print("Invalid input file")
+	exit()
+
+print(filein + ": compiling")
+prog_str = conf["Config"]["shebang"] + "\n\n"
+imports = conf["Config"]["Imports"]
+for module in imports:
+    prog_str = prog_str + "from " + module["from"] + " import " + module["import"] + "\n"
+
+print(filein + ": built imports ✔")
+
+rclass = conf["Class"]
+prog_str = prog_str + classname + " = " + rclass["name"] + "("
+for i in range(len(rclass["Constructor"])):
+    if(i < len(rclass["Constructor"]) - 1):
+        prog_str = prog_str + str(conf["Config"]["Ports"][rclass["Constructor"][i]]) + ","
+    else:
+        prog_str = prog_str + str(conf["Config"]["Ports"][rclass["Constructor"][i]]) + ")\n"
+
+print(filein + ": built robot class ✔")
+
+file = open(filein, "r")
+for line in file:
+    for method in rclass["Methods"]:
+        if(method["match"] in line):
+            prog_str = prog_str + classname + "." + method["name"] + "("
+            params = re.findall("(?<=" + method["match"] + ")(.*?)(?=" + method["match"] + ")", line)[0].split("::")
+            for i in range(len(method["Parameters"])):
+                if(i < len(method["Parameters"]) - 1):
+                    if(not "_" in method["Parameters"][i]):
+                        prog_str = prog_str + str(conf["Config"]["Constants"][method["Parameters"][i]]) + ","
+                    else:
+                        prog_str = prog_str + params[int(method["Parameters"][i].strip("_"))]  + ","
+                else:
+                    if(not "_" in method["Parameters"][i]):
+                        prog_str = prog_str + str(conf["Config"]["Constants"][method["Parameters"][i]]) + ")\n"
+                    else:
+                        prog_str = prog_str + params[int(method["Parameters"][i].strip("_"))] + ")\n"
+            print(filein + ": built method '" + method["name"] + "' ✔")
+file.close()
+open(fileout, "w").write(prog_str)
+print(filein + ": compiled ✔")

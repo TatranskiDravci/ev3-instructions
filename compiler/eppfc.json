@@ -1,8 +1,6 @@
 {
   "Config" : {
     "shebang" : "#!/usr/bin/env pybricks-micropython",
-    "loadpath" : "/home/lukas/.ev3-paths/",
-    "savepath" : "/home/lukas/.ev3-paths/compiled/",
     "classname" : "r",
     "Imports" : [
       { "from" : "robot", "import" : "*" },
@@ -32,17 +30,15 @@
       {
         "name" : "move",
         "match" : "m",
-        "type" : "float",
         "Parameters" : [
-          "maxspeed", "_", "basespeed", "tolerance"
+          "maxspeed", "_0", "basespeed", "tolerance"
         ]
       },
       {
         "name" : "rotate",
         "match" : "r",
-        "type" : "int",
         "Parameters" : [
-          "maxspeed", "_", "basespeed"
+          "maxspeed", "_0", "basespeed"
         ]
       }
     ]

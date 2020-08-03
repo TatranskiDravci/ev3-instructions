@@ -1,0 +1,5 @@
+#!/bin/bash
+
+[[ ! -d "/usr/lib/eppfc" ]] && mkdir /usr/lib/eppfc
+cp ./eppfc /usr/lib/eppfc/
+cp ./bin/eppfc /usr/bin/
